@@ -20,7 +20,7 @@
     </div>
     <!-- inventory -->
     <div id="popupInventory" class="modal fadeInDown" style="display: none;">
-        <button class="hvr-wobble-top" id="change">Change all gold in ecu</button>
+        <button class="hvr-wobble-top" id="change">Changer gold en écus</button>
         <ul id="inventory-model"></ul>
     </div>
     <!-- classment -->
@@ -32,8 +32,13 @@
     </div>
     <!-- equipment -->
     <div id="popupEquipment" class="modal zoomIn" style="display: none;">
-        <ul id="inventory2-model"></ul>
-        <ul id="boatEquipment-model"></ul>
+        <ul id="inventory2-model">
+            <p>Inventaire</p>
+        </ul>
+        <hr>
+        <ul id="boatEquipment-model">
+            <p>Equipement</p>
+        </ul>
     </div>
 
 </section>
