@@ -10,7 +10,7 @@ export default class BuyBoat extends Shop
         this.$el = $("#equipement-model");
 
         // On lance la propriété crée dans le parent shop.class.js
-        this.create_button();
+        this.create_button("un bateau");
 
 
         // On accroche un événement on click sur la div button-shop en passant en paramètre Boat,
@@ -33,23 +33,25 @@ export default class BuyBoat extends Shop
         let data = e.data;
         let parent = data.that.parent;
 
-        if (parent.wallet.ecu < 100){
+        if (parent.wallet.ecu < 1000){
 
-            return console.log("Vous n'avez pas assez d'écu");
+            return parent.actionlist.showInAL(`Vous n'avez pas assez d'écus, partez miner !!`);
 
         } else {
 
             parent.boats[parent.id] = new data.class(undefined,parent.id);
             parent.id++;
             console.log(parent);
-            parent.wallet.ecu -= 100;
+            parent.wallet.ecu -= 1000;
             parent.wallet.renderWallet();
             parent.saveDataJson(parent);
+
+            parent.renderBoats.createBoatsButton(parent.boats);
 
             //Action List
             parent.actionlist.showInAL (`Un nouveau ${parent.boats[parent.id-1].name} vient de débarquer à Main Harbor`, 0);
             parent.actionlist.showInAL (`Tu as : ${parent.wallet.ecu} d'écu`, 1500);
-            parent.actionlist.showInAL (`et Tu as : ${parent.wallet.gold} de gold`, 2000);
+            parent.actionlist.showInAL (`et tu as : ${parent.wallet.gold} de gold`, 2000);
         }
 
     }

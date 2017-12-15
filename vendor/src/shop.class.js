@@ -4,27 +4,23 @@ export default class Shop
     {
 
         $('#button-shop').on('click',function(){
-            let modal = document.getElementById('popupShop');
-
-            //  Affiche la popup
-            modal.style.display = "block";
+            document.getElementById('popupShop').style.display = "block";
+            document.getElementById('popUp').style.display = "grid";
 
             window.onclick = function(event) {
-                if (event.target === modal) modal.style.display = 'none';
+                if (event.target === document.getElementById('background'))
+                {
+                  document.getElementById('popupShop').style.display = 'none';
+                  document.getElementById('popUp').style.display = 'none';
+                }
             }
         });
-
-        $('.close').on('click',function(){
-            $(this).closest('.modal').css('display','none');
-        });
-
     }
 
     // propriété appelée dans boats.shop.class.js
-    create_button(){
+    create_button(text){
         let $el = $('#equipement-model');
-        let button = `<input type='button' data-id='${this.id}' value='Acheter un bateau'/>`;
-        console.log('El est :'+$el);
+        let button = `<input class="hvr-pulse-grow" type='button' data-id='${this.id}' value='${text}'/>`;
         $el.append(button);
     }
 }

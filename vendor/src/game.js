@@ -2,9 +2,21 @@ import Wallet from './wallet.class';
 
 import Boat from './boat.class';
 
+import Barge from './barge.class';
+
+import Rig from './rig.class';
+
+import Submarine from './submarine.class';
+
 import Ranking from './ranking.class';
 
 import BuyBoat from './boat.shop.class';
+
+import BuyBarge from './barge.shop.class';
+
+import BuyRig from './rig.shop.class';
+
+import BuySubmarine from './submarine.shop.class';
 
 import ShopEquipement from './equipement.shop.class';
 
@@ -31,13 +43,24 @@ export default class Game
         // Creation des bateaux
         this.boats = {};
 
-        let boat = null;
-
         this.id = 0;
 
-        for (boat in config.boats) {
+        for (let boat in config.boats) {
             if (config.boats.hasOwnProperty(boat)) {
-                this.boats[this.id] = new Boat(config.boats[boat], this.id);
+                switch (config.boats[boat].name){
+                    case "Bateau":
+                        this.boats[this.id] = new Boat(config.boats[boat], this.id);
+                        break;
+                    case "Barge":
+                        this.boats[this.id] = new Barge(config.boats[boat], this.id);
+                        break;
+                    case "Sous-marin":
+                        this.boats[this.id] = new Submarine(config.boats[boat], this.id);
+                        break;
+                    case "Plateforme":
+                        this.boats[this.id] = new Rig(config.boats[boat], this.id);
+                        break;
+                }
                 this.id = this.boats[this.id].id;
                 this.id++;
             }
@@ -45,7 +68,7 @@ export default class Game
 
         // Creation de main Harbor
         this.mainHarbor = {};
-        
+
         // Création des svg pour les bateaux
         this.renderBoats = new RenderBoats();
         this.renderBoats.createBoatsButton(this.boats);
@@ -55,7 +78,15 @@ export default class Game
         this.mainHarbor.shop.equipement = {};
 
         this.mainHarbor.shop[`button 0`] = new BuyBoat(this.id);
-        this.mainHarbor.shop.equipement = new ShopEquipement(this.id,shop_equipement);  
+        this.id++;
+        this.mainHarbor.shop['button 1'] = new BuyBarge(this.id);
+        this.id++;
+        this.mainHarbor.shop['button 2'] = new BuySubmarine(this.id);
+        this.id++;
+        this.mainHarbor.shop['button 3'] = new BuyRig(this.id);
+        this.id++;
+
+        this.mainHarbor.shop.equipement = new ShopEquipement(this.id,shop_equipement);
 
         this.inventory = new Inventory();
 
@@ -69,8 +100,22 @@ export default class Game
 
         this.mainHarbor.shop.equipement.inventoryPush(this);
 
+        let ostChill = new Audio("../assets/audio/Ambient1.wav");
 
-        this.ranking = new Ranking();
+        let ostPop = new Audio("../assets/audio/Ambient2.wav");
+
+        ostChill.play();
+
+        ostChill.onended = function () {
+            ostPop.play();
+        };
+
+        ostPop.onended = function () {
+            ostChill.play();
+        };
+
+        this.ranking = new Ranking();/*
+        this.ranking.test(this.wallet);*/
 
         // Creation des références au parent dans les enfants
 
